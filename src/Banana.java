@@ -1,39 +1,58 @@
-import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 
+/* ultraPort S4
+ * colorPort1 s1
+ * colorPortM s2
+ * colorport2 s3*/
 public class Banana {
 	
 	public static void main(String[] args) {
+		//Declaracao de Objeto e variaves
 		EV3Hardware abacaxi = new EV3Hardware();
-		EV3Movement rodelas = new EV3Movement(MotorPort.A, MotorPort.D, 3.81971, 23.5);
-		//                       EV3Sensors(Port ultraPort, Port colorPort1, port colorPortM Port colorPort2)
-		EV3Sensors sensors = new EV3Sensors(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
-		TextLCD LCD = abacaxi.getEv3brick().getTextLCD();
+		EV3Movement rodas = new EV3Movement(MotorPort.A, MotorPort.D, 3.81971, 23.5);
+		EV3Sensors sens = new EV3Sensors(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
+		double TRobo = 80;
+		double TLinPreta = 80;
 		
+		
+		//processamento do Codigo
 		while(abacaxi.ESCNotPressed()) {
 			
-			sensors.preencherSensor1();
-			sensors.preencherSensorM();
-			sensors.preencherSensor2();
+			sens.preencherSensores();
+			do {
+				sens.preencherSensores();
+				rodas.moveForward();
+			}while((sens.isBranco1() && (sens.isPretoM() || sens.isBrancoM()) && sens.isBranco2()) || sens.isAllPreto());
+			rodas.stop();
 			
-			if(sensors.isPreto2()) {
-				LCD.drawString("Preto V", 0, 1);
-			}else if(sensors.isVerde2()){
-				LCD.drawString("Verde V", 0, 1);
-			}else if(sensors.isBranco2()){
-				LCD.drawString("Branco V", 0, 1);
-			}else{
-				LCD.drawString("Nao sei", 0, 1);
+			//Verde
+			if (sens.isVerde1() && sens.isVerde2()) {
+				rodas.rotate(180);
+			}else if(sens.isVerde1() && !sens.isVerde2()) {
+				while(sens.isVerde1()) {
+					rodas.moveForward();
+					sens.preencherSensor1();
+				}
+				rodas.stop();
+				if(sens.isPreto1()) {
+					rodas.travel(TRobo/2 + TLinPreta);
+					rodas.rotate(90);
+				}
+			}else if(!sens.isVerde1() && sens.isVerde2()) {
+				while(sens.isVerde2()) {
+					rodas.moveForward();
+					sens.preencherSensor2();
+				}
+				rodas.stop();
+				if(sens.isPreto2()) {
+					rodas.travel(TRobo/2 + TLinPreta);
+					rodas.rotate(-90);					
+				}
 			}
 			
-			LCD.drawString("R1: " + sensors.sensorRGB2[0], 0, 2);
-			LCD.drawString("G1: " + sensors.sensorRGB2[1], 0, 3);
-			LCD.drawString("B1: " + sensors.sensorRGB2[2], 0, 4);
 			
 			
-			abacaxi.getButtons().waitForAnyPress();
 		}
-			
 	}
 }

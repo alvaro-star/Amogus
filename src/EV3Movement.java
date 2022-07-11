@@ -14,7 +14,7 @@ public class EV3Movement {
 	
 	private Navigator navigator;
 	
-	//@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public EV3Movement(Port PORT_LEFT, Port PORT_RIGHT, double WHEEL_DIAMETER, double OFFSET) {
 		LEFT_MOTOR = new EV3LargeRegulatedMotor(PORT_LEFT);
 		RIGHT_MOTOR = new EV3LargeRegulatedMotor(PORT_RIGHT);
@@ -23,6 +23,9 @@ public class EV3Movement {
 		pilot = new MovePilot(WHEEL_DIAMETER, OFFSET, LEFT_MOTOR, RIGHT_MOTOR);
 		
 		navigator = new Navigator(pilot);
+		
+		//LEFT_MOTOR.setSpeed(800);
+		//RIGHT_MOTOR.setSpeed(800);
 	}
 
 	public EV3LargeRegulatedMotor getLEFT_MOTOR() {

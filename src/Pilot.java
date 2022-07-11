@@ -1,5 +1,4 @@
 import lejos.hardware.BrickFinder;
-import lejos.hardware.Button;
 import lejos.hardware.Keys;
 import lejos.hardware.Sound;
 import lejos.hardware.ev3.EV3;
@@ -13,6 +12,7 @@ import lejos.robotics.SampleProvider;
 import lejos.robotics.navigation.MovePilot;
 
 public class Pilot {
+	@SuppressWarnings({ "resource", "unused", "deprecation" })
 	public static void main (String [] args) {
 		EV3LargeRegulatedMotor left_engine = new EV3LargeRegulatedMotor(MotorPort.A);
 		EV3LargeRegulatedMotor right_engine = new EV3LargeRegulatedMotor(MotorPort.D);

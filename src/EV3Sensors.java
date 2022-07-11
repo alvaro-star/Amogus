@@ -117,6 +117,12 @@ public class EV3Sensors {
 		sensorRGB2[2] = sensorRGB2[2]/10000;
 	}
 	
+	public void preencherSensores() {
+		this.preencherSensor1();
+		this.preencherSensor2();
+		this.preencherSensorM();
+	}
+	
 	public boolean isVerde1() {
 		if(sensorRGB1[0] > 0.0230 & sensorRGB1[0] < 0.0380){ 
 			if(sensorRGB1[1] > 0.0800 & sensorRGB1[1] < 0.1100) {
@@ -218,42 +224,10 @@ public class EV3Sensors {
 		return false;
 	}
 	
-	//end cores
-	
-	public String getColorName(int colorID) {
-		switch(colorID) {
-			case 7:
-				return "BLACK";
-			case 2:
-				return "BLUE";
-			case 13:
-				return "BROWN";
-			case 12:
-				return "CYAN";
-			case 11:
-				return "DARK_GRAY";
-			case 9:
-				return "GRAY";
-			case 1:
-				return "GREEN";
-			case 10:
-				return "LIGHT_GRAY";
-			case 4:
-				return "MAGENTA";
-			case -1:
-				return "NONE";
-			case 5:
-				return "ORANGE";
-			case 8:
-				return "PINK";
-			case 0:
-				return "RED";
-			case 6:
-				return "WHITE";
-			case 3:
-				return "YELLOW";
-			default:
-				return "NOT IDENTIFIED";
+	public boolean isAllPreto() {
+		if(isPreto1() && isPreto2() && isPretoM()) {
+			return true;
 		}
+		return false;
 	}
 }
