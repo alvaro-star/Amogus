@@ -125,8 +125,8 @@ public class EV3Sensors {
 	
 	public boolean isVerde1() {
 		if(sensorRGB1[0] > 0.0230 & sensorRGB1[0] < 0.0380){ 
-			if(sensorRGB1[1] > 0.0800 & sensorRGB1[1] < 0.1100) {
-				if(sensorRGB1[2] > 0.0520 & sensorRGB1[2] < 0.0880){
+			if(sensorRGB1[1] > 0.0700 & sensorRGB1[1] < 0.1100) {
+				if(sensorRGB1[2] > 0.0500 & sensorRGB1[2] < 0.0880){
 					return true;
 				}
 			}
@@ -135,9 +135,9 @@ public class EV3Sensors {
 	}
 	
 	public boolean isPreto1() {
-		if(sensorRGB1[0] > 0.0200 & sensorRGB1[0] < 0.0300){ 
-			if( sensorRGB1[1] > 0.0170 & sensorRGB1[1] < 0.0300) {
-				if(sensorRGB1[2] > 0.0250 & sensorRGB1[2] < 0.0370){
+		if(sensorRGB1[0] > 0.0150 & sensorRGB1[0] < 0.0700){ 
+			if( sensorRGB1[1] > 0.0150 & sensorRGB1[1] < 0.0400) {
+				if(sensorRGB1[2] > 0.0200 & sensorRGB1[2] < 0.0400){
 					return true;
 				}
 			}
@@ -180,9 +180,9 @@ public class EV3Sensors {
 	}
 	
 	public boolean isPreto2() {
-		if(sensorRGB2[0] > 0.0230 & sensorRGB2[0] < 0.0330){ 
-			if( sensorRGB2[1] > 0.0200 & sensorRGB2[1] < 0.0380) {
-				if(sensorRGB2[2] > 0.0250 & sensorRGB2[2] < 0.0380){
+		if(sensorRGB2[0] > 0.0200 & sensorRGB2[0] < 0.0350){ 
+			if( sensorRGB2[1] > 0.0200 & sensorRGB2[1] < 0.0400) {
+				if(sensorRGB2[2] > 0.0220 & sensorRGB2[2] < 0.0400){
 					return true;
 				}
 			}
@@ -192,8 +192,8 @@ public class EV3Sensors {
 	
 	
 	public boolean isVerdeM() {
-		if(sensorRGBM[0] > 0.0200 & sensorRGBM[0] < 0.0500){ 
-			if(sensorRGBM[1] > 0.0900 & sensorRGBM[1] < 0.1600) {
+		if(sensorRGBM[0] > 0.0100 & sensorRGBM[0] < 0.0600){ 
+			if(sensorRGBM[1] > 0.0900 & sensorRGBM[1] < 0.1700) {
 				if(sensorRGBM[2] > 0.0250 & sensorRGBM[2] < 0.0700){
 					return true;
 				}
@@ -203,8 +203,8 @@ public class EV3Sensors {
 	}
 	
 	public boolean isBrancoM() {
-		if(sensorRGBM[0] > 0.2300 & sensorRGBM[0] < 0.2900) {
-			if(sensorRGBM[1] > 0.2500 & sensorRGBM[1] < 0.3700) {
+		if(sensorRGBM[0] > 0.2000 & sensorRGBM[0] < 0.2900) {
+			if(sensorRGBM[1] > 0.2500 & sensorRGBM[1] < 0.3950) {
 				if(sensorRGBM[2] > 0.1400 & sensorRGBM[2] < 0.2000) {
 					return true;
 				}
@@ -214,9 +214,9 @@ public class EV3Sensors {
 	}
 	
 	public boolean isPretoM() {
-		if(sensorRGBM[0] > 0.0200 & sensorRGBM[0] < 0.0330){ 
-			if( sensorRGBM[1] > 0.0200 & sensorRGBM[1] < 0.0410) {
-				if(sensorRGBM[2] > 0.0050 & sensorRGBM[2] < 0.0250){
+		if(sensorRGBM[0] > 0.0200 & sensorRGBM[0] < 0.0350){ 
+			if( sensorRGBM[1] > 0.0200 & sensorRGBM[1] < 0.0700) {
+				if(sensorRGBM[2] > 0.0050 & sensorRGBM[2] < 0.0300){
 					return true;
 				}
 			}
@@ -226,6 +226,13 @@ public class EV3Sensors {
 	
 	public boolean isAllPreto() {
 		if(isPreto1() && isPreto2() && isPretoM()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isAllBranco() {
+		if(isBranco1() && isBranco2() && isBrancoM()) {
 			return true;
 		}
 		return false;

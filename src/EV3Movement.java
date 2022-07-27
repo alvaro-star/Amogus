@@ -23,9 +23,6 @@ public class EV3Movement {
 		pilot = new MovePilot(WHEEL_DIAMETER, OFFSET, LEFT_MOTOR, RIGHT_MOTOR);
 		
 		navigator = new Navigator(pilot);
-		
-		//LEFT_MOTOR.setSpeed(800);
-		//RIGHT_MOTOR.setSpeed(800);
 	}
 
 	public EV3LargeRegulatedMotor getLEFT_MOTOR() {
@@ -65,7 +62,7 @@ public class EV3Movement {
 	}
 	
 	public void rotate(double angle) {
-		pilot.rotate(angle*0.845);
+		pilot.rotate(angle*0.745);
 	}
 	
 	public void stop() {
