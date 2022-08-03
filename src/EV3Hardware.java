@@ -4,6 +4,7 @@ import lejos.hardware.ev3.EV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.Port;
 
+
 public class EV3Hardware {
 	private EV3 ev3brick;
 	private Keys buttons;

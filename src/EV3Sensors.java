@@ -214,9 +214,9 @@ public class EV3Sensors {
 	}
 	
 	public boolean isPretoM() {
-		if(sensorRGBM[0] > 0.0200 & sensorRGBM[0] < 0.0350){ 
-			if( sensorRGBM[1] > 0.0200 & sensorRGBM[1] < 0.0700) {
-				if(sensorRGBM[2] > 0.0050 & sensorRGBM[2] < 0.0300){
+		if(sensorRGBM[0] > 0.0130 & sensorRGBM[0] < 0.0350){ 
+			if( sensorRGBM[1] > 0.016 & sensorRGBM[1] < 0.0980) {
+				if(sensorRGBM[2] > 0.0050 & sensorRGBM[2] < 0.0560){
 					return true;
 				}
 			}
@@ -238,3 +238,4 @@ public class EV3Sensors {
 		return false;
 	}
 }
+

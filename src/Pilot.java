@@ -1,103 +1,33 @@
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Keys;
-import lejos.hardware.Sound;
-import lejos.hardware.ev3.EV3;
-import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.EV3ColorSensor;
-import lejos.hardware.sensor.EV3UltrasonicSensor;
-import lejos.robotics.SampleProvider;
+import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
+import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 
 public class Pilot {
 	@SuppressWarnings({ "resource", "unused", "deprecation" })
 	public static void main (String [] args) {
-		EV3LargeRegulatedMotor left_engine = new EV3LargeRegulatedMotor(MotorPort.A);
-		EV3LargeRegulatedMotor right_engine = new EV3LargeRegulatedMotor(MotorPort.D);
-		
-		double diametro = 5;
-		double distancia = 13.3;
-		//Sensore de Som
-		EV3UltrasonicSensor sonic = new EV3UltrasonicSensor(SensorPort.S2);
-		SampleProvider dist = sonic.getDistanceMode();
-		//Sensore de Cor
-		EV3ColorSensor colorDireita = new EV3ColorSensor(SensorPort.S1);
-		EV3ColorSensor colorEsquerda = new EV3ColorSensor(SensorPort.S4);
-		SampleProvider sensorD = colorDireita.getColorIDMode();
-		SampleProvider sensorE = colorEsquerda.getColorIDMode();
-		
-		
-		
-		
-		/*
-			public static final
-					RED = 0;
-					GREEN = 1;
-					BLUE = 2;
-					YELLOW = 3;
-					MAGENTA = 4;
-					ORANGE = 5;
-					WHITE = 6;
-   					BLACK = 7;
-   					PINK = 8;
-   					GRAY = 9;
-   					LIGHT_GRAY = 10;
-   					DARK_GRAY = 11;
-   					CYAN = 12;
-   					BROWN = 13;
-   					NONE = -1; 
-		*/
-		
-		
-		EV3 ev3 = (EV3)BrickFinder.getLocal();
-		Keys buttons = ev3.getKeys();
-		TextLCD display= ev3.getTextLCD();
-		
-		left_engine.setSpeed(800);
-		right_engine.setSpeed(800);
-		MovePilot pilot = new MovePilot(diametro, distancia, left_engine, right_engine, false);
-		
-		double multG = 0.7455;
-		double multD = 0.901;
-		
-		float[] sensores = new float[3];
 
+		double WHEEL_DIAMETER = 3.81971;
+		double OFFSET = 23.5;
 		
-		/*
-		pilot.travel(85*multD);
-		pilot.rotate(720*multG);
-		//Button.waitForAnyPress();
-		//dist.fetchSample(sensores, 0);
-		//display.drawString("Dist: "+sensores[0], 0, 0);
-		//Button.waitForAnyPress();
-		*/
+		EV3LargeRegulatedMotor LEFT_MOTOR = new EV3LargeRegulatedMotor(MotorPort.C);
+		EV3LargeRegulatedMotor RIGHT_MOTOR = new EV3LargeRegulatedMotor(MotorPort.B);
 		
-		//SSSSSSSSSSS
+		Wheel wheel1 = WheeledChassis.modelWheel(LEFT_MOTOR, WHEEL_DIAMETER).offset(-OFFSET);
+		Wheel wheel2 = WheeledChassis.modelWheel(RIGHT_MOTOR, WHEEL_DIAMETER).offset(OFFSET);
 		
-		while(true)
-		{
-			dist.fetchSample(sensores, 0);
-			sensorE.fetchSample(sensores, 1);
-			sensorD.fetchSample(sensores, 2);
+		Wheel wheelArr[] = { wheel1, wheel2 };
+		
+		Chassis chassis = new WheeledChassis(wheelArr, WheeledChassis.TYPE_DIFFERENTIAL);
 			
-			if(sensores[1] == 1|| sensores[2] == 1) {
-				pilot.rotate(95*multG);
-			}
-			if(sensores[0] < 0.01) {
-				Sound.beep();
-				pilot.rotate(360*multG);
-			}else {
-				
-				if(pilot.isMoving() == false) {
-					pilot.forward();
-				}
-			}
-		}
-		  //pilot.travel(30*multD); // Integer.MAX_VALUE =∞
-		  //pilot.stop();
-		//pilot.rotate(360*multG);
-		//}
+		MovePilot pilot = new MovePilot(chassis);
+		double x = 0.0338;
+		pilot.travel(-x*90);
+		//pilot.rotate(10);
+		
+		
+		
 	}
 }

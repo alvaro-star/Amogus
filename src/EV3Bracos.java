@@ -2,9 +2,8 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.Navigator;
-import lejos.utility.Stopwatch;
 
-public class EV3Movement {
+public class EV3Bracos {
 	private EV3LargeRegulatedMotor LEFT_MOTOR;
 	private EV3LargeRegulatedMotor RIGHT_MOTOR;
 	
@@ -15,19 +14,14 @@ public class EV3Movement {
 	
 	private Navigator navigator;
 	
-	private Stopwatch stopwatch;
-	
 	@SuppressWarnings("deprecation")
-	public EV3Movement(Port PORT_LEFT, Port PORT_RIGHT, double WHEEL_DIAMETER, double OFFSET) {
+	public EV3Bracos(Port PORT_LEFT, Port PORT_RIGHT, double WHEEL_DIAMETER, double OFFSET) {
 		LEFT_MOTOR = new EV3LargeRegulatedMotor(PORT_LEFT);
 		RIGHT_MOTOR = new EV3LargeRegulatedMotor(PORT_RIGHT);
-		
 		
 		pilot = new MovePilot(WHEEL_DIAMETER, OFFSET, LEFT_MOTOR, RIGHT_MOTOR);
 		
 		navigator = new Navigator(pilot);
-		
-		stopwatch = new Stopwatch();
 	}
 
 	public EV3LargeRegulatedMotor getLEFT_MOTOR() {
@@ -67,21 +61,12 @@ public class EV3Movement {
 	}
 	
 	public void rotate(double angle) {
-		pilot.rotate(angle*0.785);
+		pilot.travel(angle*0.0338);
 	}
 	
 	public void stop() {
 		pilot.stop();
 		while(pilot.isMoving());
 	}
-
-	public Stopwatch getStopwatch() {
-		return stopwatch;
-	}
-
-	public void setStopwatch(Stopwatch stopwatch) {
-		this.stopwatch = stopwatch;
-	}
-	
 	
 }
