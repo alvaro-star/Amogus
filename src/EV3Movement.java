@@ -4,6 +4,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.Navigator;
 import lejos.utility.Stopwatch;
 
+
 public class EV3Movement {
 	private EV3LargeRegulatedMotor LEFT_MOTOR;
 	private EV3LargeRegulatedMotor RIGHT_MOTOR;
@@ -17,7 +18,6 @@ public class EV3Movement {
 	
 	private Stopwatch stopwatch;
 	
-	@SuppressWarnings("deprecation")
 	public EV3Movement(Port PORT_LEFT, Port PORT_RIGHT, double WHEEL_DIAMETER, double OFFSET) {
 		LEFT_MOTOR = new EV3LargeRegulatedMotor(PORT_LEFT);
 		RIGHT_MOTOR = new EV3LargeRegulatedMotor(PORT_RIGHT);

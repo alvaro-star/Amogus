@@ -10,7 +10,7 @@ public class Banana {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		// Declaracao de Objeto e variaves
+		// Declaracao de Objeto e variaveis
 		EV3Hardware abacaxi = new EV3Hardware();
 		EV3Movement rodas = new EV3Movement(MotorPort.A, MotorPort.D, 3.81971, 23.5);
 		EV3Sensors sens = new EV3Sensors(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
@@ -18,10 +18,12 @@ public class Banana {
 
 		// EV3Bracos bracos = new EV3Bracos(MotorPort.C, MotorPort.B, 3.81971, 23.5);
 
-		// EV3Bracos bracos = new EV3Bracos(MotorPort.B, MotorPort.C, 3.81971, 23.5);
 		double TRobo = 16;
 		double TLinPreta = 2;
 		String anterior = "branco";
+
+		String contador = "branco";
+		int contadorN = 0;
 
 		// bracos.rotate(90);
 
@@ -30,48 +32,57 @@ public class Banana {
 
 		// processamento do Codigo
 		while (abacaxi.ESCNotPressed()) {
-
+			rodas.getLEFT_MOTOR().setSpeed(200);
+			rodas.getRIGHT_MOTOR().setSpeed(200);
 			sens.preencherSensores();
-			som.msc();
 
 			do {
 				sens.preencherSensores();
 				rodas.moveForward();
 			} while ((sens.isBranco1() & sens.isBranco2()) & sens.isPretoM());
 
-			if ((sens.isBranco1() & sens.isBranco2()) & sens.isPretoM()) {
-				anterior = "branco";
+			/*
+			 * if (sens.isBranco1() & sens.isBranco2() & sens.isPretoM()) { anterior =
+			 * "branco"; }else if(anterior == "branco") { sens.preencherSensores(); }
+			 */
+
+			if (contador == anterior) {
+				contadorN++;
+			} else {
+				contadorN = 0;
 			}
+
 			// Virando para onde esteja a linha preta
 
 			sens.preencherSensores();
+			// rodas.getLEFT_MOTOR().setSpeed(200);
+			// rodas.getRIGHT_MOTOR().setSpeed(200);
 			if ((!sens.isPreto1() & sens.isPreto2()) & !sens.isPretoM()) {
 				sens.preencherSensores();
-				rodas.rotate(-5);
+				rodas.rotate(-6 + contadorN);
 				anterior = "preto: 2";
 			} else if ((sens.isBranco1() & sens.isBranco2()) & sens.isBrancoM() & anterior == "preto: 2") {
 				sens.preencherSensores();
-				rodas.rotate(-5);
+				rodas.rotate(-6 + contadorN);
 			}
 
 			if ((sens.isPreto1() & !sens.isPreto2()) & !sens.isPretoM()) {
 				sens.preencherSensores();
-				rodas.rotate(5);
+				rodas.rotate(6 + contadorN);
 				anterior = "preto: 1";
 			} else if ((sens.isBranco1() & sens.isBranco2()) & sens.isBrancoM() & anterior == "preto: 1") {
 				sens.preencherSensores();
-				rodas.rotate(-5);
+				rodas.rotate(6 + contadorN);
 			}
 			sens.preencherSensores();
 
-			// Verificar velocidade
-			rodas.getLEFT_MOTOR().setSpeed(200);
-			rodas.getRIGHT_MOTOR().setSpeed(200);
-
-			int rodaD = rodas.getRIGHT_MOTOR().getSpeed();
-			int rodaE = rodas.getLEFT_MOTOR().getSpeed();
-			LCD.drawString("RodaD: " + rodaD, 1, 1);
-			LCD.drawString("RodaE: " + rodaE, 1, 2);
+			/*
+			 * // Verificar velocidade
+			 * 
+			 * int rodaD = rodas.getRIGHT_MOTOR().getSpeed(); int rodaE =
+			 * rodas.getLEFT_MOTOR().getSpeed(); LCD.drawString("RodaD: " + rodaD, 1, 1);
+			 * LCD.drawString("RodaE: " + rodaE, 1, 2);
+			 */
 			sens.preencherSensores();
 
 			// girar para Direita

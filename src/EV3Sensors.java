@@ -13,7 +13,8 @@ public class EV3Sensors {
 	private EV3ColorSensor colorSensor2;
 	
 	
-	public EV3Sensors(Port ultraPort, Port colorPort1,Port colorPortM, Port colorPort2) {
+	
+	public EV3Sensors(Port ultraPort, Port colorPort1, Port colorPortM, Port colorPort2) {
 		ultraSensor = new EV3UltrasonicSensor(ultraPort);
 		colorSensor1 = new EV3ColorSensor(colorPort1);
 		colorSensorM = new EV3ColorSensor(colorPortM);
@@ -158,7 +159,7 @@ public class EV3Sensors {
 	
 	
 	public boolean isVerde2() {
-		if(sensorRGB2[0] > 0.0200 & sensorRGB2[0] < 0.0450){ 
+		if(sensorRGB2[0] > 0.0200 & sensorRGB2[0] < 0.0500){ 
 			if(sensorRGB2[1] > 0.0800 & sensorRGB2[1] < 0.1300) {
 				if(sensorRGB2[2] > 0.0500 & sensorRGB2[2] < 0.1000){
 					return true;
@@ -194,7 +195,7 @@ public class EV3Sensors {
 	public boolean isVerdeM() {
 		if(sensorRGBM[0] > 0.0100 & sensorRGBM[0] < 0.0600){ 
 			if(sensorRGBM[1] > 0.0900 & sensorRGBM[1] < 0.1700) {
-				if(sensorRGBM[2] > 0.0250 & sensorRGBM[2] < 0.0700){
+				if(sensorRGBM[2] > 0.0250 & sensorRGBM[2] < 0.0750){
 					return true;
 				}
 			}
