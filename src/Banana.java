@@ -1,4 +1,3 @@
-import lejos.hardware.lcd.LCD;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 
@@ -12,15 +11,10 @@ public class Banana {
 	public static void main(String[] args) {
 		// Declaracao de Objeto e variaveis
 		EV3Hardware abacaxi = new EV3Hardware();
-		EV3Movement rodas = new EV3Movement(MotorPort.A, MotorPort.D, 3.81971, 23.5);
-		EV3Sensors sens = new EV3Sensors(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
-		EV3Sounds som = new EV3Sounds();
+		Cores sensores = new Cores(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
+		Functions r = new Functions(MotorPort.A, MotorPort.D, 3.81971, 23.5, sensores);
 
 		// EV3Bracos bracos = new EV3Bracos(MotorPort.C, MotorPort.B, 3.81971, 23.5);
-
-		double TRobo = 16;
-		double TLinPreta = 2;
-		String anterior = "branco";
 
 		String contador = "branco";
 		int contadorN = 0;
@@ -32,98 +26,108 @@ public class Banana {
 
 		// processamento do Codigo
 		while (abacaxi.ESCNotPressed()) {
-			rodas.getLEFT_MOTOR().setSpeed(200);
-			rodas.getRIGHT_MOTOR().setSpeed(200);
-			sens.preencherSensores();
+			r.getLEFT_MOTOR().setSpeed(225);
+			r.getRIGHT_MOTOR().setSpeed(225);
+			r.sens.preencherSensores();
 
-			do {
-				sens.preencherSensores();
-				rodas.moveForward();
-			} while ((sens.isBranco1() & sens.isBranco2()) & sens.isPretoM());
-
-			/*
-			 * if (sens.isBranco1() & sens.isBranco2() & sens.isPretoM()) { anterior =
-			 * "branco"; }else if(anterior == "branco") { sens.preencherSensores(); }
-			 */
-
-			if (contador == anterior) {
-				contadorN++;
-			} else {
-				contadorN = 0;
+			if (r.sens.isBranco1() & r.sens.isBranco2() & r.sens.isPretoM()) {
+				r.anterior = "branco";
+				r.moveForward();
+				r.sens.preencherSensores();
+			} 
+			if (r.anterior == "branco") {
+				r.sens.preencherSensores();
+				r.moveForward();
 			}
-
-			// Virando para onde esteja a linha preta
-
-			sens.preencherSensores();
-			// rodas.getLEFT_MOTOR().setSpeed(200);
-			// rodas.getRIGHT_MOTOR().setSpeed(200);
-			if ((!sens.isPreto1() & sens.isPreto2()) & !sens.isPretoM()) {
-				sens.preencherSensores();
-				rodas.rotate(-6 + contadorN);
-				anterior = "preto: 2";
-			} else if ((sens.isBranco1() & sens.isBranco2()) & sens.isBrancoM() & anterior == "preto: 2") {
-				sens.preencherSensores();
-				rodas.rotate(-6 + contadorN);
+			
+			r.sens.preencherSensores();
+			if(!(r.sens.isPretoM() & r.sens.isBranco1() & r.sens.isBranco2())) {
+				r.alinhar();
 			}
+			r.moveForward();
 
-			if ((sens.isPreto1() & !sens.isPreto2()) & !sens.isPretoM()) {
-				sens.preencherSensores();
-				rodas.rotate(6 + contadorN);
-				anterior = "preto: 1";
-			} else if ((sens.isBranco1() & sens.isBranco2()) & sens.isBrancoM() & anterior == "preto: 1") {
-				sens.preencherSensores();
-				rodas.rotate(6 + contadorN);
-			}
-			sens.preencherSensores();
-
-			/*
-			 * // Verificar velocidade
-			 * 
-			 * int rodaD = rodas.getRIGHT_MOTOR().getSpeed(); int rodaE =
-			 * rodas.getLEFT_MOTOR().getSpeed(); LCD.drawString("RodaD: " + rodaD, 1, 1);
-			 * LCD.drawString("RodaE: " + rodaE, 1, 2);
-			 */
-			sens.preencherSensores();
+			r.sens.preencherSensores();
 
 			// girar para Direita
-			if ((sens.isVerde1() & sens.isBranco2()) & sens.isPretoM()) {
-				sens.preencherSensores();
-				rodas.travel(8.5);
-				rodas.rotate(90);
-				// girar para Esqueda
-			} else if ((sens.isBranco1() & sens.isVerde2()) & sens.isPretoM()) {
-				sens.preencherSensores();
-				rodas.travel(8.5);
-				rodas.rotate(-90);
+			if (((r.sens.isVerde1() | r.sens.isPreto1()) & r.sens.isBranco2()) & r.sens.isPretoM()) {
+				r.sens.preencherSensores();
+				if(r.sens.cor1 == "preto") {
+					r.travel(7.5);
+					r.sens.preencherSensores();
+				}else {
+					r.travel(8.5);
+					r.sens.preencherSensores();
+				}
+				//rodas.travel(8.5);
+				r.rotate(90);
+				r.anterior = "preto: 2";
+			// girar para Esqueda
+			} else if ((r.sens.isBranco1() & (r.sens.isVerde2() | r.sens.isPreto2())) & r.sens.isPretoM()) {
+				r.sens.preencherSensores();
+				if(r.sens.cor2 == "preto") {
+					r.travel(7.5);
+					r.sens.preencherSensores();
+				}else {
+					r.travel(8.5);
+					r.sens.preencherSensores();
+				}
+				r.rotate(-90);
+				r.anterior = "preto: 1";
+			} else if(r.sens.isAllPreto()) {
+				r.sens.preencherSensores();
+				r.travel(2);
+				if(r.sens.isAllBranco() & r.anterior == "preto2") {
+					r.rotate(7);
+				}else if( r.sens.isAllBranco() & r.anterior == "preto2") {
+					r.rotate(-7);
+				}
+			} else if(r.sens.isVerde1() & r.sens.isVerde2() & r.sens.isPretoM()) {
+				r.sens.preencherSensores();
+				r.rotate(180);
 			}
-			sens.preencherSensores();
+			
+			// Tentando resolver o prolema da parte sem linha
+			r.sens.preencherSensores();			/*if((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM()) {
+				r.sens.preencherSensores();
+				r.travel(8.5);	
+				if ((!r.sens.isPreto1() & r.sens.isPreto2()) & !r.sens.isPretoM()) {
+					r.sens.preencherSensores();
+					r.rotate(-7);
+					r.anterior = "preto: 2";
+				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 2") {
+					r.sens.preencherSensores();
+					r.rotate(-7);
+				}
 
-			/*
-			 * //Verde if (sens.isVerde1() && sens.isVerde2()) { rodas.rotate(180); }
-			 * 
-			 * if((sens.isVerde1() & sens.isBranco2()) & sens.isPretoM()) {
-			 * while(sens.isVerde1()) { rodas.moveForward(); sens.preencherSensor1(); }
-			 * rodas.stop(); if((sens.isVerde1() & sens.isBranco2()) & sens.isPretoM()) {
-			 * rodas.travel(4+ TLinPreta); rodas.rotate(90); } }
-			 * 
-			 * if((sens.isBranco1() & sens.isVerde2()) & sens.isPretoM()) {
-			 * while((sens.isBranco1() & sens.isVerde2()) & sens.isPretoM()) {
-			 * rodas.moveForward(); sens.preencherSensor2(); } rodas.stop();
-			 * if(sens.isPreto2()) { rodas.travel(4+ TLinPreta); rodas.rotate(-90); } }
-			 * 
-			 * 
-			 * //sens.preencherSensores();
-			 * 
-			 * 
-			 * LCD.drawString("Preto: "+sens.isPretoM(), 1, 1);
-			 * LCD.drawString("Branco: "+sens.isBranco2(), 1, 2);
-			 * LCD.drawString("Verde: "+sens.isVerde1(), 1, 3); LCD.drawString("R 1: "+
-			 * sens.sensorRGBM[0], 1, 4); LCD.drawString("G 1: "+ sens.sensorRGBM[1], 1, 5);
-			 * LCD.drawString("B 1: "+ sens.sensorRGBM[2], 1, 6);
-			 * 
-			 * sens.preencherSensores(); if(sens.isAllBranco()) { rodas.stop(); break; }
-			 */
-			// abacaxi.getButtons().waitForAnyPress();
+				if ((r.sens.isPreto1() & !r.sens.isPreto2()) & !r.sens.isPretoM()) {
+					r.sens.preencherSensores();
+					r.rotate(7);
+					r.anterior = "preto: 1";
+				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 1") {
+					r.sens.preencherSensores();
+					r.rotate(7);
+				}
+			} else {				if ((!r.sens.isPreto1() & r.sens.isPreto2()) & !r.sens.isPretoM()) {
+					r.sens.preencherSensores();
+					r.rotate(-7);
+					r.anterior = "preto: 2";
+				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 2") {
+					r.sens.preencherSensores();
+					r.rotate(-7);
+				}
+
+				if ((r.sens.isPreto1() & !r.sens.isPreto2()) & !r.sens.isPretoM()) {
+					r.sens.preencherSensores();
+					r.rotate(7);
+					r.anterior = "preto: 1";
+				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 1") {
+					r.sens.preencherSensores();
+					r.rotate(7);
+				}
+			}*/
+			r.sens.preencherSensores();
 		}
+		
+		
 	}
 }
