@@ -26,10 +26,6 @@ public class Banana {
 		while (abacaxi.ESCNotPressed()) {
 
 			r.sens.preencherSensores();
-			/*
-			 * if (r.sens.cor1.equals("b") & r.sens.cor2.equals("b") &
-			 * r.sens.corM.equals("p")) \{ r.anterior = "branco"; \}
-			 */
 
 			if (!(r.sens.corM.equals("p") & r.sens.cor1.equals("b") & r.sens.cor2.equals("b"))) {
 				r.alinhar();

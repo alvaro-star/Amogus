@@ -63,7 +63,7 @@ public class EV3Movement {
 	}
 
 	public void travel(double distance) {
-		pilot.travel(-distance*1.49);
+		pilot.travel(-distance * 1.49);
 	}
 
 	public void rotate(double angle) {
@@ -72,8 +72,7 @@ public class EV3Movement {
 
 	public void stop() {
 		pilot.stop();
-		while (pilot.isMoving())
-			;
+		while (pilot.isMoving());
 	}
 
 	public Stopwatch getStopwatch() {
