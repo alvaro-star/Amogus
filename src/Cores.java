@@ -15,13 +15,26 @@ public class Cores extends EV3Sensors{
 		this.preencherSensor1();
 		this.preencherSensor2();
 		this.preencherSensorM();
+		this.conhecerCores();
+	}
+	
+	public void conhecerCores() {
+		isVerde1();
+		isPreto1();
+		isBranco1();
+		isVerde2();
+		isPreto2();
+		isBranco2();
+		isVerdeM();
+		isPretoM();
+		isBrancoM();
 	}
 	
 	public boolean isVerde1() {
 		if(sensorRGB1[0] > 0.0230 & sensorRGB1[0] < 0.0380){ 
 			if(sensorRGB1[1] > 0.0700 & sensorRGB1[1] < 0.1100) {
 				if(sensorRGB1[2] > 0.0500 & sensorRGB1[2] < 0.0880){
-					cor1 = "verde";
+					cor1 = "v";
 					return true;
 				}
 			}
@@ -33,7 +46,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGB1[0] > 0.0150 & sensorRGB1[0] < 0.0700){ 
 			if( sensorRGB1[1] > 0.0150 & sensorRGB1[1] < 0.0400) {
 				if(sensorRGB1[2] > 0.0200 & sensorRGB1[2] < 0.0400){
-					cor1 = "preto";
+					cor1 = "p";
 					return true;
 				}
 			}
@@ -45,7 +58,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGB1[0] > 0.2800 & sensorRGB1[0] < 0.3500) {
 			if(sensorRGB1[1] > 0.2000 & sensorRGB1[1] < 0.2650) {
 				if(sensorRGB1[2] > 0.2400 & sensorRGB1[2] < 0.3200) {
-					cor1 = "branco";
+					cor1 = "b";
 					return true;
 				}
 			}
@@ -58,7 +71,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGB2[0] > 0.0200 & sensorRGB2[0] < 0.0500){ 
 			if(sensorRGB2[1] > 0.0800 & sensorRGB2[1] < 0.1300) {
 				if(sensorRGB2[2] > 0.0500 & sensorRGB2[2] < 0.1000){
-					cor2 = "verde";
+					cor2 = "v";
 					return true;
 				}
 			}
@@ -70,7 +83,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGB2[0] > 0.2800 & sensorRGB2[0] < 0.3500) {
 			if(sensorRGB2[1] > 0.2500 & sensorRGB2[1] < 0.3500) {
 				if(sensorRGB2[2] > 0.2400 & sensorRGB2[2] < 0.3300) {
-					cor2 = "branco";
+					cor2 = "b";
 					return true;
 				}
 			}
@@ -82,7 +95,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGB2[0] > 0.0200 & sensorRGB2[0] < 0.0350){ 
 			if( sensorRGB2[1] > 0.0200 & sensorRGB2[1] < 0.0400) {
 				if(sensorRGB2[2] > 0.0220 & sensorRGB2[2] < 0.0400){
-					cor2 = "preto";
+					cor2 = "p";
 					return true;
 				}
 			}
@@ -96,7 +109,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGBM[0] > 0.0100 & sensorRGBM[0] < 0.0600){ 
 			if(sensorRGBM[1] > 0.0900 & sensorRGBM[1] < 0.1700) {
 				if(sensorRGBM[2] > 0.0250 & sensorRGBM[2] < 0.0750){
-					corM = "verde";
+					corM = "v";
 					return true;
 				}
 			}
@@ -108,7 +121,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGBM[0] > 0.2000 & sensorRGBM[0] < 0.2900) {
 			if(sensorRGBM[1] > 0.2500 & sensorRGBM[1] < 0.3950) {
 				if(sensorRGBM[2] > 0.1400 & sensorRGBM[2] < 0.2000) {
-					corM = "branco";
+					corM = "b";
 					return true;
 				}
 			}
@@ -120,7 +133,7 @@ public class Cores extends EV3Sensors{
 		if(sensorRGBM[0] > 0.0130 & sensorRGBM[0] < 0.0350){ 
 			if( sensorRGBM[1] > 0.016 & sensorRGBM[1] < 0.0980) {
 				if(sensorRGBM[2] > 0.0050 & sensorRGBM[2] < 0.0560){
-					corM = "preto";
+					corM = "p";
 					return true;
 				}
 			}

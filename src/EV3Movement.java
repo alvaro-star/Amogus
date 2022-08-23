@@ -52,22 +52,22 @@ public class EV3Movement {
 		return navigator;
 	}
 
-	public void moveForward() {
+	public void movePFrente() {
 		if (!pilot.isMoving())
 			pilot.forward();
 	}
 
-	public void moveBackward() {
+	public void movePTraz() {
 		if (!pilot.isMoving())
 			pilot.backward();
 	}
 
 	public void travel(double distance) {
-		pilot.travel(distance);
+		pilot.travel(-distance*1.49);
 	}
 
 	public void rotate(double angle) {
-		pilot.rotate(angle * 0.870);
+		pilot.rotate(-angle * 3.4);
 	}
 
 	public void stop() {

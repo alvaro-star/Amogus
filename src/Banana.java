@@ -12,122 +12,79 @@ public class Banana {
 		// Declaracao de Objeto e variaveis
 		EV3Hardware abacaxi = new EV3Hardware();
 		Cores sensores = new Cores(SensorPort.S4, SensorPort.S1, SensorPort.S2, SensorPort.S3);
-		Functions r = new Functions(MotorPort.A, MotorPort.D, 3.81971, 23.5, sensores);
-
-		// EV3Bracos bracos = new EV3Bracos(MotorPort.C, MotorPort.B, 3.81971, 23.5);
+		Functions r = new Functions(MotorPort.A, MotorPort.D, 5.8, 9.1, sensores);
 
 		String contador = "branco";
 		int contadorN = 0;
-
-		// bracos.rotate(90);
 
 		// sensor 1 = direita = port 1
 		// sensor 2 = esquerda = port 3
 
 		// processamento do Codigo
+		r.getLEFT_MOTOR().setSpeed(225);
+		r.getRIGHT_MOTOR().setSpeed(225);
 		while (abacaxi.ESCNotPressed()) {
-			r.getLEFT_MOTOR().setSpeed(225);
-			r.getRIGHT_MOTOR().setSpeed(225);
-			r.sens.preencherSensores();
 
-			if (r.sens.isBranco1() & r.sens.isBranco2() & r.sens.isPretoM()) {
-				r.anterior = "branco";
-				r.moveForward();
-				r.sens.preencherSensores();
-			} 
-			if (r.anterior == "branco") {
-				r.sens.preencherSensores();
-				r.moveForward();
-			}
-			
 			r.sens.preencherSensores();
-			if(!(r.sens.isPretoM() & r.sens.isBranco1() & r.sens.isBranco2())) {
+			/*
+			 * if (r.sens.cor1.equals("b") & r.sens.cor2.equals("b") &
+			 * r.sens.corM.equals("p")) \{ r.anterior = "branco"; \}
+			 */
+
+			if (!(r.sens.corM.equals("p") & r.sens.cor1.equals("b") & r.sens.cor2.equals("b"))) {
 				r.alinhar();
+			} else {
+				r.anterior = "branco";
 			}
+
 			r.moveForward();
 
-			r.sens.preencherSensores();
-
 			// girar para Direita
-			if (((r.sens.isVerde1() | r.sens.isPreto1()) & r.sens.isBranco2()) & r.sens.isPretoM()) {
-				r.sens.preencherSensores();
-				if(r.sens.cor1 == "preto") {
-					r.travel(7.5);
-					r.sens.preencherSensores();
-				}else {
-					r.travel(8.5);
-					r.sens.preencherSensores();
-				}
-				//rodas.travel(8.5);
+			if ((r.sens.cor1.equals("v") & r.sens.cor2.equals("b")) & r.sens.corM.equals("p")) {
+				r.travel(8.5);
 				r.rotate(90);
 				r.anterior = "preto: 2";
-			// girar para Esqueda
-			} else if ((r.sens.isBranco1() & (r.sens.isVerde2() | r.sens.isPreto2())) & r.sens.isPretoM()) {
-				r.sens.preencherSensores();
-				if(r.sens.cor2 == "preto") {
-					r.travel(7.5);
-					r.sens.preencherSensores();
-				}else {
-					r.travel(8.5);
-					r.sens.preencherSensores();
-				}
+				// girar para Esqueda
+			} else if ((r.sens.cor1.equals("b") & r.sens.cor2.equals("v")) & r.sens.corM.equals("p")) {
+				r.travel(8.5);
 				r.rotate(-90);
 				r.anterior = "preto: 1";
-			} else if(r.sens.isAllPreto()) {
-				r.sens.preencherSensores();
-				r.travel(2);
-				if(r.sens.isAllBranco() & r.anterior == "preto2") {
-					r.rotate(7);
-				}else if( r.sens.isAllBranco() & r.anterior == "preto2") {
-					r.rotate(-7);
-				}
-			} else if(r.sens.isVerde1() & r.sens.isVerde2() & r.sens.isPretoM()) {
-				r.sens.preencherSensores();
+			} else if (r.sens.cor1.equals("v") & r.sens.cor2.equals("v") & r.sens.corM.equals("p")) {
 				r.rotate(180);
 			}
-			
-			// Tentando resolver o prolema da parte sem linha
-			r.sens.preencherSensores();			/*if((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM()) {
+			if (r.sens.isAllPreto()) {
 				r.sens.preencherSensores();
-				r.travel(8.5);	
-				if ((!r.sens.isPreto1() & r.sens.isPreto2()) & !r.sens.isPretoM()) {
-					r.sens.preencherSensores();
+				r.travel(2.5);
+				if (r.sens.isAllBranco() & r.anterior == "preto2") {
+					r.rotate(7);
+					r.anterior = "preto1";
+				} else if (r.sens.isAllBranco() & r.anterior == "preto1") {
 					r.rotate(-7);
+					r.anterior = "preto2";
+				}
+			}
+
+			r.moveForward();
+			if ((r.sens.cor1.equals("p") & r.sens.cor2.equals("b")) & r.sens.corM.equals("p")) {
+				r.travel(2);
+				r.sens.preencherSensores();
+				if (r.sens.isAllBranco()) {
+					r.travel(6.5);
+					r.rotate(90);
 					r.anterior = "preto: 2";
-				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 2") {
-					r.sens.preencherSensores();
-					r.rotate(-7);
+				}
+				// girar para Esqueda
+			} else if ((r.sens.cor1.equals("b") & r.sens.cor2.equals("p")) & r.sens.corM.equals("p")) {
+				r.sens.preencherSensores();
+				r.travel(2);
+				if (r.sens.isAllBranco()) {
+					r.travel(6.5);
+					r.rotate(-90);
+					r.anterior = "preto: 1";
+
 				}
 
-				if ((r.sens.isPreto1() & !r.sens.isPreto2()) & !r.sens.isPretoM()) {
-					r.sens.preencherSensores();
-					r.rotate(7);
-					r.anterior = "preto: 1";
-				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 1") {
-					r.sens.preencherSensores();
-					r.rotate(7);
-				}
-			} else {				if ((!r.sens.isPreto1() & r.sens.isPreto2()) & !r.sens.isPretoM()) {
-					r.sens.preencherSensores();
-					r.rotate(-7);
-					r.anterior = "preto: 2";
-				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 2") {
-					r.sens.preencherSensores();
-					r.rotate(-7);
-				}
-
-				if ((r.sens.isPreto1() & !r.sens.isPreto2()) & !r.sens.isPretoM()) {
-					r.sens.preencherSensores();
-					r.rotate(7);
-					r.anterior = "preto: 1";
-				} else if ((r.sens.isBranco1() & r.sens.isBranco2()) & r.sens.isBrancoM() & r.anterior == "preto: 1") {
-					r.sens.preencherSensores();
-					r.rotate(7);
-				}
-			}*/
-			r.sens.preencherSensores();
+			}
 		}
-		
-		
 	}
 }
